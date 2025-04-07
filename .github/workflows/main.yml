@@ -2,7 +2,7 @@ name: Daily Notepad Update
 
 on:
   schedule:
-    - cron: '33 21 * * *' # Runs at 21:18 UK time (UTC+0 only)
+    - cron: '34 21 * * *' # Runs at 21:18 UK time (UTC+0 only)
 
 jobs:
   update-notepad:
