@@ -1,8 +1,9 @@
-name: Daily Notepad Updated
+name: Daily Notepad Update
 
 on:
   schedule:
-    - cron: '46 21 * * *' # Runs at 21:18 UK time (UTC+0 only)
+    - cron: '47 21 * * *'  # Every day at 21:18 UTC
+  workflow_dispatch:  # Allow manual runs
 
 jobs:
   update-notepad:
@@ -12,15 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Generate 4-digit random number and update notepad.txt
+      - name: Append random 4-digit number to notepad.txt
         run: |
           RANDOM_NUM=$((1000 + RANDOM % 9000))
-          echo "Random 4-digit update: $RANDOM_NUM on $(date -u)" >> notepad.txt
+          echo "Random number: $RANDOM_NUM on $(date -u)" >> notepad.txt
 
       - name: Commit changes
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add notepad.txt
-          git commit -m "Daily update with random number: $(date -u)" || echo "No changes to commit"
+          git commit -m "Auto-update notepad with random number" || echo "No changes"
           git push
