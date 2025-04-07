@@ -1,9 +1,9 @@
-name: Daily Notepad Update
+name: Daily Notepad Multi-Update
 
 on:
   schedule:
-    - cron: '49 21 * * *'  # Every day at 21:18 UTC
-  workflow_dispatch:  # Allow manual runs
+    - cron: '00 06 * * *'  # Runs once per day at 6:00 UTC (choose your base time)
+  workflow_dispatch:        # Allows manual runs
 
 jobs:
   update-notepad:
@@ -13,15 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Append random 4-digit number to notepad.txt
-        run: |
-          RANDOM_NUM=$((1000 + RANDOM % 9000))
-          echo "Random number: $RANDOM_NUM on $(date -u)" >> notepad.txt
-
-      - name: Commit changes
+      - name: Generate and commit 4–10 random numbers throughout the day
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add notepad.txt
-          git commit -m "Auto-update notepad with random number" || echo "No changes"
-          git push
+
+          LOOP_COUNT=$((4 + RANDOM % 7))  # 4 to 10 times
+
+          for ((i=1; i<=LOOP_COUNT; i++)); do
+            RANDOM_NUM=$((1000 + RANDOM % 9000))
+            echo "Random 4-digit update: $RANDOM_NUM on $(date -u)" >> notepad.txt
+
+            git add notepad.txt
+            git commit -m "Update $i of $LOOP_COUNT: $RANDOM_NUM at $(date -u)" || echo "No changes"
+            git push
+
+            # Random sleep time: 10 to 60 minutes
+            SLEEP_MINUTES=$((10 + RANDOM % 50))
+            echo "Sleeping for $SLEEP_MINUTES minutes..."
+            sleep "${SLEEP_MINUTES}m"
+          done
