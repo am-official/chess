@@ -2,7 +2,7 @@ name: Daily Notepad Multi-Update
 
 on:
   schedule:
-    - cron: '00 06 * * *'  # Runs once per day at 6:00 UTC (choose your base time)
+    - cron: '04 22 * * *'  # Runs once per day at 6:00 UTC (choose your base time)
   workflow_dispatch:        # Allows manual runs
 
 jobs:
