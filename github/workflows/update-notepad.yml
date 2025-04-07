@@ -1,8 +1,9 @@
 name: Daily Notepad Update
 
 on:
+  workflow_dispatch:   # ← Enables manual "Run workflow" button
   schedule:
-    - cron: '18 23 27 3-10 *' # Runs every day at midnight UTC
+    - cron: '18 26 * * *'
 
 jobs:
   update-notepad:
