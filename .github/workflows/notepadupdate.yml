@@ -1,0 +1,26 @@
+name: Daily Notepad Updated
+
+on:
+  schedule:
+    - cron: '40 21 * * *' # Runs at 21:18 UK time (UTC+0 only)
+
+jobs:
+  update-notepad:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate 4-digit random number and update notepad.txt
+        run: |
+          RANDOM_NUM=$((1000 + RANDOM % 9000))
+          echo "Random 4-digit update: $RANDOM_NUM on $(date -u)" >> notepad.txt
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add notepad.txt
+          git commit -m "Daily update with random number: $(date -u)" || echo "No changes to commit"
+          git push
