@@ -2,7 +2,7 @@ name: Daily Notepad Update
 
 on:
   schedule:
-    - cron: '31 21 * * *' # Runs at 21:18 UK time (UTC+0 only)
+    - cron: '33 21 * * *' # Runs at 21:18 UK time (UTC+0 only)
 
 jobs:
   update-notepad:
@@ -24,3 +24,4 @@ jobs:
           git add notepad.txt
           git commit -m "Daily update with random number: $(date -u)" || echo "No changes to commit"
           git push
+          
