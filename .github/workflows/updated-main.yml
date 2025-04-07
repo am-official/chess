@@ -1,4 +1,4 @@
-name: Daily Notepad Update
+name: Daily Notepad Updated
 
 on:
   schedule:
